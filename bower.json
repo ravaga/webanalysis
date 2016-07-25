@@ -1,0 +1,17 @@
+{
+  "name": "webAnalysis",
+  "authors": [
+    "Rafa's iMac <rafackyou@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
