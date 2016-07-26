@@ -12,12 +12,13 @@ var app = angular.module("analysisApp", ["ngRoute"]);
 })
    
    app.controller("myController",function($scope, $http){
+    
     $scope.results = [];
     $scope.load = function ($var) {
         var siteTest = {
             "speed": 'src/speed.php?url='+$var,
             "mobile": 'src/mobile.php?url='+$var,
-            "w3": 'src/w3valid.php?url='+$var
+            "w3":'src/w3valid.php?url='+$var,
         };
         angular.forEach(siteTest, function(value, key){
             $http.get(value).success(function(data){
@@ -25,9 +26,9 @@ var app = angular.module("analysisApp", ["ngRoute"]);
                 obj[key] = data; 
                 $scope.results.push(obj);
             });
-        }); 
-        
+        });     
     }
+    
 });
     
 

@@ -10,23 +10,18 @@
     
         $url = "https://validator.w3.org/check?uri=".$get."&output=json";
         
-        $url2 = "https://validator.w3.org/nu/?showsource=false&doc=http://www.google.com&out=json";
+        $url2 = "https://validator.w3.org/nu/?doc=".$get."&out=json";
         
          // Initializing curl
-        $curl = curl_init( $url );
+        $curl = curl_init( $url2 );
 
         // Configuring curl options
         $options = array(
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => array('Content-type: application/json') ,
-            CURLOPT_HTTPHEADER, array('Accept: application/json'),
+            CURLOPT_HTTPHEADER => array("Content-type: application/x-www-form-urlencoded;charset=UTF-8") ,
+            CURLOPT_HTTPHEADER, array("Accept: text/html,application/xhtml+xml,application/json,application/xml;q=0.9,image/webp,*/*;q=0.8"),
             
         );
-
-        //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json'));
-
-        
-        
         // Setting curl options
         curl_setopt_array( $curl, $options );
 
@@ -35,18 +30,13 @@
         curl_close($curl);
         
         //show html entities
-        $result_html = htmlentities($result);
-        //remove backslashes
-        //$result_noSlashes = stripcslashes(stripcslashes($result_html));
-        //remove triple spaces
+        //$result_html = htmlentities($result);
         
-        $other = str_replace(": ,", ':"",', $result_html);
-        $lol = preg_replace('/(?:<|&lt;)\/?([a-zA-Z]+) *[^<\/]*?(?:>|&gt;)/', '', $other);        
+        //str_replace('\ ', '', $result_html);
         
-        //no header
-        $string = substr($lol , strpos($lol , "{"));
-        $json = json_encode($string);
-        print_r(gettype($json));     
-        print_r($json);    
+        print_r($result);
+        
+ 
+        
        }
 ?>
