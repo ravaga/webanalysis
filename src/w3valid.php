@@ -39,17 +39,27 @@
         //remove backslashes
         $result_noSlashes = stripcslashes(stripcslashes($result_html));
         //remove triple spaces
-        $noTriple = str_replace("   ", " ", $result_noSlashes);
         
+        
+        $noTriple = str_replace("        ", " ", $result_noSlashes);
+        $another = str_replace("    ", " ", $noTriple);
+        $other = str_replace(": ,", ':"",', $another);
         //no headers
-        $noHeaders = substr($noTriple , strpos($noTriple , "{"));
         
-        //$json = preg_replace('/(\\\n)+/m', '\\\n', $result_html);
-
+        
+        
+        $lol = preg_replace('/(?:<|&lt;)\/?([a-zA-Z]+) *[^<\/]*?(?:>|&gt;)/', '', $other);
+        //$noHeaders = substr($notags , strpos($notags , "{"));
+        
+        $strip = strip_tags($lol);
+        
+        
+        $json = $strip;
+        
         
             echo("<pre>");
        
-            print_r($noHeaders);     
+            print_r($json);     
             echo("</pre>");
             
        }
