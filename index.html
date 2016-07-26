@@ -21,6 +21,12 @@
         
         <button ng-click="load(url)">Get</button>
     </form>
+    
+    <div clas="row">
+        <div class="col-md-4">
+            SPEED <pre>{{results}}</pre>
+        </div>
+    </div>
     </div>
 
     
@@ -34,19 +40,30 @@
 <script type="text/javascript">
 angular.module("analysisApp", [])
 
-    .controller("controller", function($scope, $http){
+    .controller("controller", function($scope, $http, $parse){
     
-    
+    $scope.results = {};
     $scope.load = function($var)
     {
+        console.log($var);
         
+        var siteTest = {
+            "speed": 'src/speed.php?url='+$var,
+            "mobile": 'src/mobile.php?url='+$var,
+        };
+        
+        angular.forEach(siteTest, function(value, key){
+               
+            $http.get(value).success(function(data, key){
+                
+                $scope.results.push = $scope.results.data;
+                    
+                            
+            });
+                 
+        });            
     }
-    
-    
-    
-    
-    $scope.that = "HELLO CLARISE";
-    
+
     
 });
     

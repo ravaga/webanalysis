@@ -7,12 +7,19 @@ if(isset($_GET["url"]))
     
     $url = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url='.$get;
 
-    $curl = curl_init($url2);
+    $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     $result = curl_exec($curl);
     curl_close($curl);
+    $array = json_decode($result, true);
     
-    print_r($result);
+    $speed = $array["ruleGroups"]["SPEED"];
+    
+    $json = json_encode($speed, true);
+        
+    
+    
+    print_r($json);
 }
 
 
