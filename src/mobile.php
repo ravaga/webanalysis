@@ -10,7 +10,12 @@ if(isset($_GET["url"]))
     $result = curl_exec($curl);
     curl_close($curl);
     
-    print_r($result);
+    $array = json_decode($result, true);
+    $mobile = $array["ruleGroups"]["USABILITY"];
+    
+    $json = json_encode($mobile);
+    
+    print_r($json);
 }
 
 
