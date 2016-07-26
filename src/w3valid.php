@@ -37,30 +37,16 @@
         //show html entities
         $result_html = htmlentities($result);
         //remove backslashes
-        $result_noSlashes = stripcslashes(stripcslashes($result_html));
+        //$result_noSlashes = stripcslashes(stripcslashes($result_html));
         //remove triple spaces
         
+        $other = str_replace(": ,", ':"",', $result_html);
+        $lol = preg_replace('/(?:<|&lt;)\/?([a-zA-Z]+) *[^<\/]*?(?:>|&gt;)/', '', $other);        
         
-        $noTriple = str_replace("        ", " ", $result_noSlashes);
-        $another = str_replace("    ", " ", $noTriple);
-        $other = str_replace(": ,", ':"",', $another);
-        //no headers
-        
-        
-        
-        $lol = preg_replace('/(?:<|&lt;)\/?([a-zA-Z]+) *[^<\/]*?(?:>|&gt;)/', '', $other);
-        //$noHeaders = substr($notags , strpos($notags , "{"));
-        
-        $strip = strip_tags($lol);
-        
-        
-        $json = $strip;
-        
-        
-            echo("<pre>");
-       
-            print_r($json);     
-            echo("</pre>");
-            
+        //no header
+        $string = substr($lol , strpos($lol , "{"));
+        $json = json_encode($string);
+        print_r(gettype($json));     
+        print_r($json);    
        }
 ?>

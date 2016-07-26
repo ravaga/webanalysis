@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="container">
+        <form class="form">
+            <div class="form-group">
+                <label>Site to Analyze</label>
+                <input type="text" ng-model="url" class="form-control">
+            </div>
+            <div class="form-group">
+                <button ng-click="load(url)" class="btn btn-success">GO!</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="container">
+        <div class="col-md-4" ng-repeat="result in results">
+            <div ng-repeat="(o, value) in result">
+                <b>{{o}}</b>
+                <br/>
+                <p>{{value.score}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<pre>
+{{results}}
+</pre>

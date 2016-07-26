@@ -1,30 +1,33 @@
-'use strict'
+'use strict';
 
-angular.module("analysisApp", [])
+var app = angular.module("analysisApp", ["ngRoute"]);
 
-    .controller("controller", function($scope, $http, $parse){
+   app.config(function($routeProvider){
     
+    $routeProvider.
+    when('/', {
+        templateUrl: 'app/views/search.html',
+        controller: 'myController'
+    })
+})
+   
+   app.controller("myController",function($scope, $http){
     $scope.results = [];
-    $scope.load = function($var)
-    {
+    $scope.load = function ($var) {
         var siteTest = {
             "speed": 'src/speed.php?url='+$var,
             "mobile": 'src/mobile.php?url='+$var,
+            "w3": 'src/w3valid.php?url='+$var
         };
         angular.forEach(siteTest, function(value, key){
-             var title = key;
-            
             $http.get(value).success(function(data){
-                $scope.results.push(title , data);
+                var obj = {};
+                obj[key] = data; 
+                $scope.results.push(obj);
             });
         }); 
         
     }
-    
-    
-
-
-
-
 });
     
+
