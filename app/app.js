@@ -23,7 +23,25 @@ var app = angular.module("analysisApp", ["ngRoute"]);
         angular.forEach(siteTest, function(value, key){
             $http.get(value).success(function(data){
                 var obj = {};
-                obj[key] = data; 
+                var bar = "";
+                var score = data.score;
+                    if(score < 33)
+                        {
+                         bar = "danger";
+                        }
+                    else if(score >= 34 && score <= 66)
+                        {
+                            bar = "warning";
+                        }
+                    else if(score >= 67)
+                        {
+                           bar = "success";
+                        }
+                
+                obj[key] = {
+                    "bar": bar,
+                    "data": data,
+                }; 
                 $scope.results.push(obj);
             });
         });     
