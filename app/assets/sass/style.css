@@ -1,3 +1,8 @@
 .navbar {
   background: black;
   padding: 25px; }
+
+.log {
+  visibility: hidden; }
+  .log.show {
+    visibility: visible; }

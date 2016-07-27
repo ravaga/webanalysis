@@ -58,13 +58,16 @@ class analize{
         $array = json_decode($result, true);
         //select what we need
         $speed = $array["ruleGroups"]["SPEED"];
-        $messages = $array["formattedResults"];
+        $messages = $array["formattedResults"]["ruleResults"];
         $stats = $array["pageStats"];
         
+        
         $group = [
-            "speed"=> $speed,
+            "test"=> $speed,
+            "alerts"=> count($messages),
             "stats"=> $stats,
-            "messages"=> $messages
+            "messages"=> $messages,
+            
         ];
         
         //encode result
@@ -95,12 +98,13 @@ class analize{
         $array = json_decode($result, true);
         //select what we need
         $mobile = $array["ruleGroups"]["USABILITY"];
-        $messages = $array["formattedResults"];
+        $messages = $array["formattedResults"]["ruleResults"];
         $screenshot = $array["screenshot"];
 
         $group = [
-            "speed"=> $mobile,
-            "messages"=> $messages,
+            "test"=> $mobile,
+            "alerts"=> count($messages),
+            "messages"=> (array)$messages,
             "screenshot"=>$screenshot
             
         ];

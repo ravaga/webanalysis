@@ -39,6 +39,8 @@
     </div>
 </body>
 
+    
+    
 <!--Scripts -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
@@ -49,3 +51,11 @@
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/controllers/search.controller.js"></script><!--end html -->
 </html>
+
+<script>
+$(document).ready(function(){
+    $('#debug').on('click', function(){
+        $('#log').toggleClass('show');
+    });
+});
+</script>

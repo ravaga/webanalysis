@@ -2,8 +2,7 @@
     <div class="container">
         <h2 class="text-center" ng-model="site">{{site}}</h2>
         <div class="text-center" ng-show="!form">
-            <button class="btn btn-warning">Search Again</button>
-            <button class="btn btn-danger">Kill Search</button>
+            <button ng-click="clearLookUp()" class="btn btn-warning">Search Again</button>
         </div>
         <form class="form" ng-show="form">
             <div class="form-group">
@@ -19,21 +18,27 @@
 
 <div class="row">
     <div class="container">
-        <div class="col-md-4" ng-repeat="result in results">
-            <div ng-repeat="(o, value) in result">
-                <h3 class="text-center">{{o}}</h3>
+        <div class="col-md-4 testResultBox" ng-repeat="result in results">
+            <div ng-repeat="(key, value) in result">
+                <h3 class="text-center">{{key}}</h3>
+                <p class="text-center">Messages: {{value.alerts}}</p>
                 <br/>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-{{value.bar}}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{value.data.score}}%;">
-                        <span class="">{{value.data.score}}% Score {{value.bar}}</span>
+                    <div class="progress-bar progress-bar-{{value.label}}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{value.score}}%;">
+                        <span class="">{{value.score}}% Score {{value.label}}</span>
                     </div>
                 </div>
-                <p class="text-center"><a><i class="fa fa-warning"></i></a></p>
             </div>
         </div>
     </div>
 </div>
-<pre>
-DEBUG:<br/>
-{{results | json}}
-</pre>
+<!-- DEBUGER -->
+<div class="container">
+    <button ng-click="debugger()" class="btn btn-danger">
+        Show Debug Log
+    </button>
+    <pre ng-model="log" ng-show="!debug">
+    DEBUG:<br/>
+        {{results | json}}
+    </pre>
+</div>
