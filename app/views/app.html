@@ -1,9 +1,14 @@
 <div class="row">
     <div class="container">
-        <form class="form">
+        <h2 class="text-center" ng-model="site">{{site}}</h2>
+        <div class="text-center" ng-show="!form">
+            <button class="btn btn-warning">Search Again</button>
+            <button class="btn btn-danger">Kill Search</button>
+        </div>
+        <form class="form" ng-show="form">
             <div class="form-group">
-                <label>Site to Analyze</label>
-                <input type="text" ng-model="url" class="form-control">
+                <label>Site Analysis</label>
+                <input type="url" ng-model="url" class="form-control" placeholder="http(s)://example.com">
             </div>
             <div class="form-group">
                 <button ng-click="load(url)" class="btn btn-success">GO!!!!</button>
@@ -16,18 +21,19 @@
     <div class="container">
         <div class="col-md-4" ng-repeat="result in results">
             <div ng-repeat="(o, value) in result">
-                <b>{{o}}</b>
+                <h3 class="text-center">{{o}}</h3>
                 <br/>
-                
                 <div class="progress">
                     <div class="progress-bar progress-bar-{{value.bar}}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{value.data.score}}%;">
-                        <span class="">{{value.data.score}}% Score (success)</span>
+                        <span class="">{{value.data.score}}% Score {{value.bar}}</span>
                     </div>
                 </div>
+                <p class="text-center"><a><i class="fa fa-warning"></i></a></p>
             </div>
         </div>
     </div>
 </div>
 <pre>
+DEBUG:<br/>
 {{results | json}}
 </pre>

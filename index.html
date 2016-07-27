@@ -7,18 +7,45 @@
     
     <title>VIVID Software Solutions Web Analysis</title>
     
-    <link type="text/css" rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">         
+    <link type="text/css" rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"> 
+    
+    <!--icons-->
+    <link type="text/css" rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+    
+    <!--loading bar -->
+    
+    <link type="text/css" rel="stylesheet" href="bower_components/angular-loading-bar/src/loading-bar.css">
+    
+    <!--Main CSS -->
+    <link type="text/css" rel="stylesheet" href="app/assets/sass/style.css">
+    
 </head>
 <body ng-app="analysisApp">
-    
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <div class="navbar-brand">
+                    <a><img class="img img-responsive" src="app/assets/imgs/vivid_logo.png"></a>
+                </div>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>This link</a></li>
+                <li><a>Another link</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container-fluid">    
         <ng-view></ng-view>
     </div>
 </body>
+
+<!--Scripts -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-loading-bar/src/loading-bar.js"></script>
 <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>    
 <!--App Script -->   
 <script type="text/javascript" src="app/app.js"></script>
+<script type="text/javascript" src="app/controllers/search.controller.js"></script><!--end html -->
 </html>

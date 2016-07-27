@@ -1,52 +1,15 @@
 'use strict';
 
-var app = angular.module("analysisApp", ["ngRoute"]);
+var app = angular.module("analysisApp", ["ngRoute", "angular-loading-bar"]);
 
    app.config(function($routeProvider){
     
     $routeProvider.
     when('/', {
-        templateUrl: 'app/views/search.html',
-        controller: 'myController'
+        templateUrl: 'app/views/app.html',
+        controller: 'lookUpController',
+        controllerAs: 'main'
     })
-})
-   
-   app.controller("myController",function($scope, $http){
-    
-    $scope.results = [];
-    $scope.load = function ($var) {
-        var siteTest = {
-            "speed": 'src/speed.php?url='+$var,
-            "mobile": 'src/mobile.php?url='+$var,
-            "w3":'src/w3valid.php?url='+$var,
-        };
-        angular.forEach(siteTest, function(value, key){
-            $http.get(value).success(function(data){
-                var obj = {};
-                var bar = "";
-                var score = data.score;
-                    if(score < 33)
-                        {
-                         bar = "danger";
-                        }
-                    else if(score >= 34 && score <= 66)
-                        {
-                            bar = "warning";
-                        }
-                    else if(score >= 67)
-                        {
-                           bar = "success";
-                        }
-                
-                obj[key] = {
-                    "bar": bar,
-                    "data": data,
-                }; 
-                $scope.results.push(obj);
-            });
-        });     
-    }
-    
 });
     
 
