@@ -1,7 +1,7 @@
 <?php
     
 
-  require('api.Class.php');
+    require('api.Class.php');
     analize::init("apiConfig.json");
 
     if(isset($_GET["url"]))

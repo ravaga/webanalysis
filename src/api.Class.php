@@ -58,8 +58,17 @@ class analize{
         $array = json_decode($result, true);
         //select what we need
         $speed = $array["ruleGroups"]["SPEED"];
+        $messages = $array["formattedResults"];
+        $stats = $array["pageStats"];
+        
+        $group = [
+            "speed"=> $speed,
+            "stats"=> $stats,
+            "messages"=> $messages
+        ];
+        
         //encode result
-        $json = json_encode($speed, true);
+        $json = json_encode($group, true);
         //return json
         return $json;  
    
@@ -85,9 +94,20 @@ class analize{
         //decode response 
         $array = json_decode($result, true);
         //select what we need
-        $speed = $array["ruleGroups"]["USABILITY"];
+        $mobile = $array["ruleGroups"]["USABILITY"];
+        $messages = $array["formattedResults"];
+        $screenshot = $array["screenshot"];
+
+        $group = [
+            "speed"=> $mobile,
+            "messages"=> $messages,
+            "screenshot"=>$screenshot
+            
+        ];
+        
+        
         //encode result
-        $json = json_encode($speed, true);
+        $json = json_encode($group, true);
         //return json
         return $json; 
     }
