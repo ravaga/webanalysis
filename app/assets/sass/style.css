@@ -1,8 +1,26 @@
+.container {
+  padding-top: 15px;
+  padding-bottom: 15px; }
+
 .navbar {
   background: black;
-  padding: 25px; }
+  padding: 25px;
+  margin-bottom: 0px;
+  border: none;
+  border-radius: 0px; }
 
-.log {
-  visibility: hidden; }
-  .log.show {
-    visibility: visible; }
+.bgHeader {
+  height: 300px;
+  width: 100%;
+  margin: 0px;
+  background: url("../imgs/bg.jpg");
+  background-size: cover;
+  background-position: center center; }
+  .bgHeader .appTitle {
+    font-size: 2em;
+    color: #fff;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: left;
+    padding-left: 25px;
+    padding-top: 75; }

@@ -18,35 +18,42 @@ app.controller("lookUpController",function($scope, $http){
         }
         else
         {
-            /* HTTP CALLS
+            /* HTTP CALLS 
             var siteTest = {
-                "speed": 'src/speed.php?url='+$var,
-                "mobile": 'src/mobile.php?url='+$var,
-                "w3":'src/w3valid.php?url='+$var,
+                "Loading-Speed": 'src/speed.php?url='+$var,
+                "Mobile-Optimization": 'src/mobile.php?url='+$var,
+                "html-Markup":'src/w3valid.php?url='+$var,
             };
             /* LOCAL FILES */
             var siteTest = {
-                "speed": 'dev/static/speed.json',
-                "mobile": 'dev/static/mobile.json',
-                "w3":'dev/static/w3.json',
+                "Loading-Speed": 'dev/static/speed.json',
+                "Mobile-Optimization": 'dev/static/mobile.json',
+                "html-Markup":'dev/static/w3.json',
             };
             /* END LOCAL*/
             angular.forEach(siteTest, function(value, key){
                 $http.get(value).success(function(data){
                     var obj = {};
                     var bar = "";
+                    var icon = "";
                     var score = 0;
                     var alerts = 0;
+                    
                        
                         //set score
-                        if(key == "w3")
+                        if(key == "html-Markup")
                         {
                             score = (100 - data.messages.length);
                             alerts = data.messages.length;
                             console.log(data.messages.length);
+                            icon = "html5";
                         }
                         else
                         {
+                            if(key == "Mobile-Optimization")
+                                {icon = "mobile"}
+                            else if(key == "Loading-Speed")
+                                {icon = "tachometer"}
                             score = data.test.score;
                             alerts = data.alerts;
                             console.log(data.messages.length);
@@ -63,6 +70,7 @@ app.controller("lookUpController",function($scope, $http){
                    
                 
                     obj[key] = {
+                    "icon": icon,
                     "label": bar,
                     "score": score,
                     "alerts": alerts,
@@ -74,16 +82,40 @@ app.controller("lookUpController",function($scope, $http){
             });
         }
     }
-    $scope.load('http://this.com');
     
+    $scope.load('http://g.com');
+    //clear search
     $scope.clearLookUp = function()
-    
     {
         $scope.results = [];
         $scope.form = true;
-    
     }
     
+    var date = new Date();
+    console.log(date);
+
+    
+    
+    
+    $scope.export = function()
+    {
+        var logo = 'assets/imgs/logo.png';
+        html2canvas(document.getElementById('export'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                        logo:logo
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("VividSoftWareSolution_report_"+$scope.site+"_"+date+".pdf");
+            }
+        });
+    }
+
+    /* DEBUGGING TOOL*/
     $scope.debug = false;
     $scope.debugger = function(){
         

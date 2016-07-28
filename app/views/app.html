@@ -1,44 +1,33 @@
+<div class="bgHeader"></div>
+<!-- Form -->
 <div class="row">
     <div class="container">
-        <h2 class="text-center" ng-model="site">{{site}}</h2>
-        <div class="text-center" ng-show="!form">
-            <button ng-click="clearLookUp()" class="btn btn-warning">Search Again</button>
-        </div>
-        <form class="form" ng-show="form">
-            <div class="form-group">
-                <label>Site Analysis</label>
-                <input type="url" ng-model="url" class="form-control" placeholder="http(s)://example.com">
-            </div>
-            <div class="form-group">
-                <button ng-click="load(url)" class="btn btn-success">GO!!!!</button>
-            </div>
-        </form>
+
+        <div ng-include="'app/views/form.html'"></div>
+       
     </div>
 </div>
 
+<!-- Results -->
 <div class="row">
-    <div class="container">
-        <div class="col-md-4 testResultBox" ng-repeat="result in results">
-            <div ng-repeat="(key, value) in result">
-                <h3 class="text-center">{{key}}</h3>
-                <p class="text-center">Messages: {{value.alerts}}</p>
-                <br/>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-{{value.label}}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:{{value.score}}%;">
-                        <span class="">{{value.score}}% Score {{value.label}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container" id="exportthis">
+        <button class="btn btn-success" ng-click="export()">Export</button>
+        <div ng-include="'app/views/result.html'"></div>
     </div>
 </div>
+
 <!-- DEBUGER -->
-<div class="container">
-    <button ng-click="debugger()" class="btn btn-danger">
-        Show Debug Log
-    </button>
-    <pre ng-model="log" ng-show="!debug">
-    DEBUG:<br/>
-        {{results | json}}
-    </pre>
+<br/><br/>
+<div class="row">
+    <div class="container">
+        
+        <div class="col-md-10 col-md-offset-1">
+            <button ng-click="debugger()" class="btn btn-danger">
+            Debug Log
+            </button>
+            <pre  ng-show="!debug">DEBUG:<br/>
+            {{results | json}}
+            </pre>
+        </div>
+    </div>
 </div>

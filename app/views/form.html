@@ -1,0 +1,15 @@
+<div class="col-md-8 col-md-offset-2">
+<h2 class="text-center" ng-model="site">{{site}}</h2>
+    <div class="text-center" ng-show="!form">
+        <button ng-click="clearLookUp()" class="btn btn-warning">Search Again</button>
+    </div>
+    <form class="form" ng-show="form">
+        <div class="form-group">
+            <label>Site Analysis</label>
+            <input type="url" ng-model="url" class="form-control" placeholder="http(s)://example.com">
+        </div>
+        <div class="form-group">
+            <button ng-click="load(url)" class="btn btn-success">GO!!!!</button>
+        </div>
+</form>
+</div>
