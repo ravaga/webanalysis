@@ -9,6 +9,24 @@
   border: none;
   border-radius: 0px; }
 
+.testBox {
+  height: auto;
+  padding: 25px; }
+
+.mobile_placeholder {
+  background: url("../imgs/iphone.png");
+  width: 100%;
+  text-align: center;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 550px;
+  display: inline-block; }
+  .mobile_placeholder .screenshot {
+    width: 188px;
+    padding-top: 109px;
+    height: auto;
+    vertical-align: middle; }
+
 .bgHeader {
   height: 300px;
   width: 100%;

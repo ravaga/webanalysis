@@ -6,7 +6,7 @@ app.controller("lookUpController",function($scope, $http){
     $scope.form = true;   
     $scope.site = "Lookup";   
     $scope.results = [];
-    
+    $scope.screenshot= '';
     
     $scope.load = function ($var) {
         $scope.form = false; 
@@ -18,17 +18,17 @@ app.controller("lookUpController",function($scope, $http){
         }
         else
         {
-            /* HTTP CALLS 
+            /* HTTP CALLS */
             var siteTest = {
-                "Loading-Speed": 'src/speed.php?url='+$var,
-                "Mobile-Optimization": 'src/mobile.php?url='+$var,
-                "html-Markup":'src/w3valid.php?url='+$var,
+                "speed": 'src/speed.php?url='+$var,
+                "mobile": 'src/mobile.php?url='+$var,
+                "HTMLmarkup":'src/w3valid.php?url='+$var,
             };
-            /* LOCAL FILES */
+            /* LOCAL FILES 
             var siteTest = {
-                "Loading-Speed": 'dev/static/speed.json',
-                "Mobile-Optimization": 'dev/static/mobile.json',
-                "html-Markup":'dev/static/w3.json',
+                "speed": 'dev/static/speed.json',
+                "mobile": 'dev/static/mobile.json',
+                "HTMLmarkup":'dev/static/w3.json',
             };
             /* END LOCAL*/
             angular.forEach(siteTest, function(value, key){
@@ -36,24 +36,51 @@ app.controller("lookUpController",function($scope, $http){
                     var obj = {};
                     var bar = "";
                     var icon = "";
+                    var title = "";
                     var score = 0;
                     var alerts = 0;
-                    
+                    var messages= {};
                        
                         //set score
-                        if(key == "html-Markup")
+                        if(key == "HTMLmarkup")
                         {
                             score = (100 - data.messages.length);
+                            title = "HTML Markup";
                             alerts = data.messages.length;
                             console.log(data.messages.length);
                             icon = "html5";
+                            messages = data.messages[0];
                         }
                         else
                         {
-                            if(key == "Mobile-Optimization")
-                                {icon = "mobile"}
-                            else if(key == "Loading-Speed")
-                                {icon = "tachometer"}
+                            messages = data.messages;
+                            if(key == "mobile")
+                            {
+                                icon = "mobile";
+                                title = "Mobile Optimization";
+                               
+                                var imgData = data.screenshot.data;
+                                
+                                var cleanThis = function(data){
+                                    
+                                    data = data.replace(/_/g,'/');
+                                    data = data.replace(/-/g, '+');
+                                    
+                                    
+                                    return data;
+                                    
+                                }
+                                 $scope.imageView = cleanThis(imgData);
+                                
+                                
+                                $scope.screenshot = data.screenshot.data;
+                                
+                                
+                            }
+                            
+                            else if(key == "speed")
+                            {icon = "tachometer";title = "Load Speed";}
+                            
                             score = data.test.score;
                             alerts = data.alerts;
                             console.log(data.messages.length);
@@ -70,11 +97,12 @@ app.controller("lookUpController",function($scope, $http){
                    
                 
                     obj[key] = {
+                    "title": title,
                     "icon": icon,
                     "label": bar,
                     "score": score,
                     "alerts": alerts,
-                    "messages": data.messages,
+                    "messages": messages,
                     //"data":data
                     }; 
                     $scope.results.push(obj);
@@ -82,38 +110,62 @@ app.controller("lookUpController",function($scope, $http){
             });
         }
     }
+
+
+
     
-    $scope.load('http://g.com');
+    /*PDF Export Function*/
+    $scope.export = function() {
+             
+        var date = new Date();
+            console.log(date);
+            $scope.logo = 'app/assets/imgs/vivid_logo.png';
+        
+        
+        
+        var docDefinition = {
+            
+            content: [
+            {
+                text: $scope.site,
+                fontSize: 20,
+            },
+            {
+                image: 'data:image/jpeg;base64,'+ $scope.screenshot,
+                width: 300,
+            },
+            {
+                text: $scope.site,
+                fontSize: 25
+            },
+            {
+                text: '$scope.results[].speed.messages'
+            }
+                    
+            ]};
+            
+            var lolo = {text:"this title", fontSize:24};
+            
+        angular.forEach($scope.results, function(obj){
+                    
+                docDefinition.content.push(lolo);
+                
+                });
+        
+        console.log(docDefinition);        
+        pdfMake.createPdf(docDefinition).download("VividSoftWareSolution_report_"+$scope.site+"_"+date+".pdf");
+    
+
+    }
+    
     //clear search
     $scope.clearLookUp = function()
     {
         $scope.results = [];
+        $scope.imageView = '';
         $scope.form = true;
     }
     
-    var date = new Date();
-    console.log(date);
-
-    
-    
-    
-    $scope.export = function()
-    {
-        var logo = 'assets/imgs/logo.png';
-        html2canvas(document.getElementById('export'), {
-            onrendered: function (canvas) {
-                var data = canvas.toDataURL();
-                var docDefinition = {
-                    content: [{
-                        image: data,
-                        width: 500,
-                        logo:logo
-                    }]
-                };
-                pdfMake.createPdf(docDefinition).download("VividSoftWareSolution_report_"+$scope.site+"_"+date+".pdf");
-            }
-        });
-    }
 
     /* DEBUGGING TOOL*/
     $scope.debug = false;

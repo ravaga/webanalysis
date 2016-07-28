@@ -10,9 +10,8 @@
 
 <!-- Results -->
 <div class="row">
-    <div class="container" id="exportthis">
-        <button class="btn btn-success" ng-click="export()">Export</button>
-        <div ng-include="'app/views/result.html'"></div>
+    <div class="container" ng-show="!form">
+        <div id="exportthis" ng-include="'app/views/result.html'"></div>
     </div>
 </div>
 
@@ -25,9 +24,12 @@
             <button ng-click="debugger()" class="btn btn-danger">
             Debug Log
             </button>
-            <pre  ng-show="!debug">DEBUG:<br/>
-            {{results | json}}
+            <pre  ng-show="!debug">DEBUG LOG:<br/>
+            <b>FORM:</b> {{form | json}}
+            
+            <b>RESULTS:</b>{{results | json}}
             </pre>
         </div>
     </div>
 </div>
+
