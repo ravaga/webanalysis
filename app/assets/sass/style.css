@@ -12,6 +12,11 @@
 .testBox {
   height: auto;
   padding: 25px; }
+  .testBox h3 {
+    font-size: 17px; }
+
+.right {
+  padding-top: 50px; }
 
 .mobile_placeholder {
   background: url("../imgs/iphone.png");
@@ -20,12 +25,14 @@
   background-position: center center;
   background-repeat: no-repeat;
   height: 550px;
-  display: inline-block; }
+  display: inline-block;
+  padding-top: 110px; }
   .mobile_placeholder .screenshot {
     width: 188px;
-    padding-top: 109px;
     height: auto;
     vertical-align: middle; }
+  .mobile_placeholder .spinner {
+    padding-top: 125px; }
 
 .bgHeader {
   height: 300px;

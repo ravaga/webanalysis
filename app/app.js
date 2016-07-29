@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module("analysisApp", ["ngRoute", "angular-loading-bar"]);
+var app = angular.module("analysisApp", ["ngRoute", "angular-loading-bar", "base64"]);
 
    app.config(function($routeProvider){
     

@@ -1,16 +1,17 @@
 'use strict';
 
 var app = angular.module("analysisApp");
-app.controller("lookUpController",function($scope, $http){
+app.controller("lookUpController",function($scope, $http, $base64){
     
     $scope.form = true;   
     $scope.site = "Lookup";   
-    $scope.results = [];
     $scope.screenshot= '';
     
     $scope.load = function ($var) {
         $scope.form = false; 
-        $scope.site = $var;    
+        $scope.site = $var;
+        $scope.results = [];
+        $scope.showResults = false;
         if($var == undefined)
         {
             console.log("Yes indeed");
@@ -18,13 +19,13 @@ app.controller("lookUpController",function($scope, $http){
         }
         else
         {
-            /* HTTP CALLS */
+            /* HTTP CALLS 
             var siteTest = {
                 "speed": 'src/speed.php?url='+$var,
                 "mobile": 'src/mobile.php?url='+$var,
                 "HTMLmarkup":'src/w3valid.php?url='+$var,
             };
-            /* LOCAL FILES 
+            /* LOCAL FILES */
             var siteTest = {
                 "speed": 'dev/static/speed.json',
                 "mobile": 'dev/static/mobile.json',
@@ -62,13 +63,9 @@ app.controller("lookUpController",function($scope, $http){
                                 var imgData = data.screenshot.data;
                                 
                                 var cleanThis = function(data){
-                                    
                                     data = data.replace(/_/g,'/');
                                     data = data.replace(/-/g, '+');
-                                    
-                                    
                                     return data;
-                                    
                                 }
                                  $scope.imageView = cleanThis(imgData);
                                 
@@ -94,8 +91,7 @@ app.controller("lookUpController",function($scope, $http){
                     else if(score >= 67)
                     {bar = "success";}
                     
-                   
-                
+                    //group results
                     obj[key] = {
                     "title": title,
                     "icon": icon,
@@ -103,28 +99,31 @@ app.controller("lookUpController",function($scope, $http){
                     "score": score,
                     "alerts": alerts,
                     "messages": messages,
-                    //"data":data
+                    // to add Raw data add: "data":data
                     }; 
+                    
+                    //push into results
                     $scope.results.push(obj);
                 });
             });
         }
     }
 
+    $scope.load("http://google.com");
 
-
+    
+    var logo = 'app/assets/imgs/vivid_logo.png';
+    var logoData = $base64.encode(logo);
+    
+    console.log(logoData);
     
     /*PDF Export Function*/
     $scope.export = function() {
              
         var date = new Date();
-            console.log(date);
-            $scope.logo = 'app/assets/imgs/vivid_logo.png';
-        
         
         
         var docDefinition = {
-            
             content: [
             {
                 text: $scope.site,
@@ -132,27 +131,25 @@ app.controller("lookUpController",function($scope, $http){
             },
             {
                 image: 'data:image/jpeg;base64,'+ $scope.screenshot,
-                width: 300,
+                width: 100,
             },
             {
                 text: $scope.site,
                 fontSize: 25
-            },
-            {
-                text: '$scope.results[].speed.messages'
             }
-                    
             ]};
             
-            var lolo = {text:"this title", fontSize:24};
-            
+            var lolo = {text:"THIS TITLE", fontSize:24};
+        
+        
         angular.forEach($scope.results, function(obj){
                     
-                docDefinition.content.push(lolo);
+            console.log(obj)    
+            
+                 docDefinition.content.push(lolo);
                 
+            
                 });
-        
-        console.log(docDefinition);        
         pdfMake.createPdf(docDefinition).download("VividSoftWareSolution_report_"+$scope.site+"_"+date+".pdf");
     
 

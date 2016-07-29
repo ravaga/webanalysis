@@ -13,7 +13,6 @@
     <link type="text/css" rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
     
     <!--loading bar -->
-    
     <link type="text/css" rel="stylesheet" href="bower_components/angular-loading-bar/src/loading-bar.css">
     
     <!--Main CSS -->
@@ -25,12 +24,12 @@
         <div class="container">
             <div class="navbar-header">
                 <div class="navbar-brand">
-                    <a><img class="img img-responsive" src="app/assets/imgs/vivid_logo.png"></a>
+                    <a><img id="logo" class="img img-responsive" src="app/assets/imgs/vivid_logo.png"></a>
                 </div>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a>This link</a></li>
-                <li><a>Another link</a></li>
+                <!--<li><a>This link</a></li>
+                <li><a>Another link</a></li>-->
             </ul>
         </div>
     </nav>
@@ -38,8 +37,6 @@
     <ng-view></ng-view>
    
 </body>
-
-    
     
 <!--Bower Components -->
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -50,6 +47,8 @@
 <script type="text/javascript" src="bower_components/pdfmake/build/pdfmake.min.js"></script>
 <script type="text/javascript" src="bower_components/pdfmake/build/vfs_fonts.js"></script>
 <script type="text/javascript" src="bower_components/html2canvas/build/html2canvas.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-base64/angular-base64.min.js"></script>    
+    
 <!--App Script -->   
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/controllers/search.controller.js"></script><!--end html -->
