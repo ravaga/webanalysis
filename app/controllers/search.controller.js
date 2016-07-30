@@ -21,7 +21,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
         }
         else
         {
-            /* HTTP CALLS 
+            /* HTTP CALLS */
             var siteTest = {
                 "speed": 'src/speed.php?url='+$var,
                 "mobile": 'src/mobile.php?url='+$var,
@@ -29,7 +29,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
             };
         
             
-            /* LOCAL FILES */
+            /* LOCAL FILES 
             var siteTest = {
                 "speed": 'dev/static/speed.json',
                 "mobile": 'dev/static/mobile.json',
@@ -118,7 +118,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
                         {
                             
                             var finalScore = testScore / testLength;
-                            
+                            var label = '';
                             
                             console.log("we are ready");
                             if(finalScore < 33)
