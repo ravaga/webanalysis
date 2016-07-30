@@ -109,24 +109,79 @@ app.controller("lookUpController",function($scope, $http, $filter){
     $scope.export = function() {
              
         var date = new Date();
-        var docDefinition = {content: []};
+        var docDefinition = {
+            content: [],
+            styles: {
+                title: {
+                    fontSize: 15,
+                    margin: [0, 15, 0, 5],
+                    alignment: 'center'
+                    },
+                subtitle:{
+                    fontSize: 12,
+                    margin:[0,15,0,5],
+                    alignment: 'center'
+                    },
+                paragraph:{
+                    fontSize: 9,
+                    color:'black',
+                    margin:[0,15,0,15],
+                    alignment:'justify'
+                },
+                column:{
+                    fontSize: 14,
+                    color:'#222',
+                    alignment:'justify'
+                    },
+                success:{
+                    color:'#5cb85c'
+                    },
+                danger:{
+                    color:'#FF0000'
+                    },
+                warning:{
+                    color:'#f0ad4e'
+                    }
+                }
+            };
         //get logo
-        var columnDefinition = {columns:[]}    
-        
-        
+        var columnDefinition = { style:'column',columns:[]}    
         var dateFilter = $filter('date')(date, "MMM d, y h:mm:ss a")
+        
         //pdfTitle
         var pdfTitle = {
             columns:[
                 {
-                    text: "Test Results for: "+ $scope.site, fontSize: 14
-                },
-                {
-                    text:"Test Date: "+ dateFilter , fontSize: 12
+                    style: 'title',
+                    text: $scope.site
                 }
             ]
         };
         docDefinition.content.push(pdfTitle);
+        
+        //pdf Subtitle
+        var pdfSubtitle = {
+            columns:[
+                {
+                    style: 'subtitle',
+                    text: $scope.site+ "\n"+ "Web Analysis | "+ dateFilter
+                }
+            ]
+        };
+        docDefinition.content.push(pdfSubtitle);
+        
+        
+        //pdf first Paragraph
+        var pdf1stP = {
+            columns:[
+                {
+                    style: 'paragraph',
+                    text: 'Fusce a nisl ligula. Quisque sed fringilla mauris. Sed eu tincidunt tellus. Fusce imperdiet auctor felis quis imperdiet. Aenean efficitur nibh ut massa suscipit, ac tempus quam aliquet. Duis consequat sollicitudin vulputate. Curabitur egestas, diam quis molestie tincidunt, diam sapien vulputate massa, vitae pretium velit sem at purus. Mauris dignissim cursus sodales. Sed eu ex odio. Aenean vel mauris eu velit posuere molestie et eu massa. Aliquam quis pellentesque nisi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam ornare feugiat porttitor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.'
+                }
+            ]
+        };
+        docDefinition.content.push(pdf1stP);
+        
         
         
         //get result screenshot
@@ -135,20 +190,21 @@ app.controller("lookUpController",function($scope, $http, $filter){
                var resData = canvas.toDataURL();
                var resImg = {
                    image: resData,
-                   width: 500
+                   width: 500,
+                   pageBreak: 'after'
                };
                console.log(resImg);
-              docDefinition.content.push(resImg); 
+              docDefinition.content.push(resImg);
            }
             
         });
         
         
-        //create columns
+        //create 1st row with columns
         angular.forEach($scope.results, function(obj, key){
             var data = Object.keys(obj);
             var x = data[0];
-            var lolo = {text: obj[x].title + " score :"+ obj[x].score};
+            var lolo = {style:obj[x].label,text: obj[x].title + " \n score :"+ obj[x].score};
             columnDefinition.columns.push(lolo);
             if(columnDefinition.columns.length == $scope.results.length)
             {
