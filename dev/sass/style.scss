@@ -1,0 +1,63 @@
+
+.container{
+    padding-top:15px;
+    padding-bottom:15px;
+}
+.navbar{
+    background:black;
+    padding:25px;
+    margin-bottom:0px;
+    border:none;
+    border-radius: 0px;
+}
+.testBox{
+    height: auto;
+    padding:25px;
+    h3{
+        font-size:17px;
+    }
+}
+
+
+.right{
+    padding-top:50px;
+}
+
+
+.mobile_placeholder{
+    background: url("../imgs/iphone.png");
+    width: 100%;
+    text-align: center;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 550px;
+    display: inline-block;
+    padding-top: 110px;
+    .screenshot{
+        width: 188px;
+        height: auto;
+        vertical-align: middle;
+    }
+    .spinner{
+        padding-top:125px;
+    }
+}
+
+
+.bgHeader{
+    height:300px;
+    width:100%;
+    margin:0px;
+    background:url('../imgs/bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    .appTitle{
+        font-size:2em;
+        color:#fff;
+        margin-bottom:0px;
+        margin-top:0px;
+        text-align:left;
+        padding-left:25px;
+        padding-top:75
+    }
+}
