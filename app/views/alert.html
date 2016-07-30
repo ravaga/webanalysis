@@ -1,0 +1,9 @@
+<div ng-show="showAlert" class="alert alert-{{ stat }}">
+    <div ng-repeat="(key, result) in results">
+        <div ng-repeat="x in result">
+            <b>{{ x.title }}</b>
+            <p>{{x.alerts}}</p>
+        </div>
+    </div>
+    <p class="text-center"><b>{{ message}}</b></p>
+</div>

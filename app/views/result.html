@@ -16,9 +16,7 @@
 <div class="col-md-8 right">
     <div class="container-fluid">
         <div class="row">
-            <div class="alert alert-danger">
-                <h1 class="text-center"><b>Your site is responsive!! </b><i class="fa fa-thumbs-up"></i> </h1>
-            </div>
+            <div ng-include="'app/views/alert.html'"></div>
         </div>
         <div class="col-md-4 testBox" ng-repeat="result in results">
             <div ng-repeat="(key, value) in result">

@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module("analysisApp");
-app.controller("lookUpController",function($scope, $http, $base64){
+app.controller("lookUpController",function($scope, $http, $filter){
     
     $scope.form = true;   
     $scope.site = "Lookup";   
@@ -11,7 +11,6 @@ app.controller("lookUpController",function($scope, $http, $base64){
         $scope.form = false; 
         $scope.site = $var;
         $scope.results = [];
-        $scope.showResults = false;
         if($var == undefined)
         {
             console.log("Yes indeed");
@@ -68,11 +67,7 @@ app.controller("lookUpController",function($scope, $http, $base64){
                                     return data;
                                 }
                                  $scope.imageView = cleanThis(imgData);
-                                
-                                
                                 $scope.screenshot = data.screenshot.data;
-                                
-                                
                             }
                             
                             else if(key == "speed")
@@ -109,50 +104,77 @@ app.controller("lookUpController",function($scope, $http, $base64){
         }
     }
 
-    $scope.load("http://google.com");
-
-    
-    var logo = 'app/assets/imgs/vivid_logo.png';
-    var logoData = $base64.encode(logo);
-    
-    console.log(logoData);
     
     /*PDF Export Function*/
     $scope.export = function() {
              
         var date = new Date();
+        var docDefinition = {content: []};
+        //get logo
+        var columnDefinition = {columns:[]}    
         
         
-        var docDefinition = {
-            content: [
+        var dateFilter = $filter('date')(date, "MMM d, y h:mm:ss a")
+        //pdfTitle
+        var pdfTitle = {
+            columns:[
+                {
+                    text: "Test Results for: "+ $scope.site, fontSize: 14
+                },
+                {
+                    text:"Test Date: "+ dateFilter , fontSize: 12
+                }
+            ]
+        };
+        docDefinition.content.push(pdfTitle);
+        
+        
+        //get result screenshot
+         html2canvas(document.getElementById('Export'), {
+           onrendered: function(canvas){
+               var resData = canvas.toDataURL();
+               var resImg = {
+                   image: resData,
+                   width: 500
+               };
+               console.log(resImg);
+              docDefinition.content.push(resImg); 
+           }
+            
+        });
+        
+        
+        //create columns
+        angular.forEach($scope.results, function(obj, key){
+            var data = Object.keys(obj);
+            var x = data[0];
+            var lolo = {text: obj[x].title + " score :"+ obj[x].score};
+            columnDefinition.columns.push(lolo);
+            if(columnDefinition.columns.length == $scope.results.length)
             {
-                text: $scope.site,
-                fontSize: 20,
-            },
-            {
-                image: 'data:image/jpeg;base64,'+ $scope.screenshot,
-                width: 100,
-            },
-            {
-                text: $scope.site,
-                fontSize: 25
+                docDefinition.content.push(columnDefinition);
             }
-            ]};
-            
-            var lolo = {text:"THIS TITLE", fontSize:24};
+        });
+         
         
-        
-        angular.forEach($scope.results, function(obj){
-                    
-            console.log(obj)    
-            
-                 docDefinition.content.push(lolo);
+        //generate logo and print pdf
+        html2canvas(document.getElementById('logo'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                //Add logo
+                var logo = {
+                        image: data,
+                        width:500
+                    };
+                //push to front
+                docDefinition.content.splice(0,0, logo);
                 
-            
-                });
-        pdfMake.createPdf(docDefinition).download("VividSoftWareSolution_report_"+$scope.site+"_"+date+".pdf");
-    
+                //create PDF
+                pdfMake.createPdf(docDefinition).
+                download("VividSoftWareSolution_report_"+$scope.site+"_"+date+".pdf");
 
+            }
+        });
     }
     
     //clear search
@@ -174,6 +196,6 @@ app.controller("lookUpController",function($scope, $http, $base64){
         {$scope.debug = true}
         
     }
-    
-    
+    // TEST JSON FILE
+    $scope.load("http://google.com");
 });
