@@ -11,7 +11,7 @@
                 <h4 class="modal-title text-center" id="{{key}}ModalLabel">{{value.title}} Messages</h4>
             </div>
             <div class="modal-body">
-                <p ng-repeat="(n , t) in value.messages">{{t.localizedRuleName}}<b> &nbsp;Rule Impact: {{t.ruleImpact}} </b></p>
+                <p ng-repeat="(n , t) in value.messages">{{t.localizedRuleName}}<br/><b> &nbsp;Rule Impact: {{t.ruleImpact}} </b></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

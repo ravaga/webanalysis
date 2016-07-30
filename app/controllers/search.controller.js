@@ -1,14 +1,11 @@
 'use strict';
 
 var app = angular.module("analysisApp");
-app.controller("lookUpController",function($scope, $http, $filter){
+app.controller("lookUpController",function($scope, $http, $filter, $sce){
     
     $scope.form = true;   
-    $scope.site = "Lookup";   
     $scope.screenshot= '';
     $scope.date = $filter('date')(new Date(), "MMM d, y h:mm:ss a")
-
-    
     
     $scope.load = function ($var) {
         $scope.form = false; 
@@ -29,7 +26,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
             };
         
             
-            /* LOCAL FILES 
+            /* LOCAL FILES   
             var siteTest = {
                 "speed": 'dev/static/speed.json',
                 "mobile": 'dev/static/mobile.json',
@@ -95,8 +92,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
                     {bar = "success";}
                     
                     testScore = testScore + score;
-                    
-                    
+                    testMessages = testMessages + alerts;
                     //group results
                     obj[key] = {
                     "title": title,
@@ -109,24 +105,21 @@ app.controller("lookUpController",function($scope, $http, $filter){
                     }; 
                     
                     //push into results
-                    
                     $scope.results.push(obj);
-                    console.log($scope.results.lenght);
-                    console.log(testScore / testLength);
                     
+                    //check for final result
                     if($scope.results.length == testLength)
                         {
-                            
                             var finalScore = testScore / testLength;
                             var label = '';
+                            var message = '';
                             
-                            console.log("we are ready");
-                            if(finalScore < 33)
-                            {label = "danger";}
-                            else if(finalScore >= 34 && finalScore <= 66)
-                            {label = "warning";}
-                            else if(finalScore >= 67)
-                            {label = "success";}    
+                            if(finalScore < 65)
+                            {label = "danger"; message = 'This site needs  optimization ASAP'; icon = 'thumbs-down'}
+                            else if(finalScore >= 66 && finalScore <= 79)
+                            {label = "warning"; message='This site requires some optimization'; icon = 'thumbs-up'}
+                            else if(finalScore >= 80)
+                            {label = "success"; message = 'Congrats! this site is well optimized'; icon='thumbs-down';}    
                             
                             
                             
@@ -134,10 +127,12 @@ app.controller("lookUpController",function($scope, $http, $filter){
                                 "title": "Test Results",
                                 "score": testScore / testLength,
                                 "label": label,
-                                "icon": "fa-thumbs-up"
+                                "messages": testMessages,
+                                "message": message,
+                                "icon": icon
                             };
                             
-                            
+                            $scope.tools($scope.site);
                         }
                     
                 });
@@ -147,7 +142,31 @@ app.controller("lookUpController",function($scope, $http, $filter){
         
     }
 
-    
+    /*
+    *   Tools*/
+    $scope.tools  = function($var)
+    {
+        //iframe sizes
+        if($var ==false)
+            return false;
+        
+        var url = $sce.trustAsResourceUrl($scope.site);
+        console.log(url);
+        var iframe = function(w, h){
+            var g = {
+                width:w,
+                height:h,
+                title:w+'x'+h,
+                class:w+'x'+h+'Modal',
+                site: url
+            }
+            return g; 
+        }
+        
+        $scope.buttons = [iframe(375,667), iframe(320, 568)];    
+        
+        console.log($scope.buttons);
+    }
     /*
         *
         *
@@ -300,7 +319,8 @@ app.controller("lookUpController",function($scope, $http, $filter){
         $scope.results = [];
         $scope.imageView = '';
         $scope.form = true;
-        $scope.site = 'Lookup';
+        $scope.alert = {};
+        $scope.site = '';
     }
     
 

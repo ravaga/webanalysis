@@ -1,5 +1,6 @@
-<div class="alert alert-{{alert.label}}">
-<b>{{ alert.title }}</b>
-            <p>{{alert.score}}</p>
-    <p><b>{{ alert.icon}}</b></p>
-</div>
+<div class="alert alert-{{alert.label}} fade-in">
+    <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
+    <h4>{{alert.message}}</h4>
+    <p>Average Score {{alert.score | number : 2}}</p>
+    <p>Total Messages: {{alert.messages}}</p>
+</div>        

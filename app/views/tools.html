@@ -2,10 +2,12 @@
     <div class="col-md-4">
         <div class="text-center">
             <h5>Iframes</h5>
-            <button class="btn btn-primary btn-sm">100x589</button>
-            <button class="btn btn-primary btn-sm">100x589</button>
-            <button class="btn btn-primary btn-sm">100x589</button>
-            <button class="btn btn-primary btn-sm">100x589</button>
+            <ul class="nav nav-pills">
+                <li ng-repeat="btn in buttons">
+                    <button class="btn btn-primary btn-sm"data-toggle="modal" data-target="#{{btn.class}}">{{btn.title}}</button>
+                    <div ng-include="'app/views/iframe.html'"></div>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="col-md-8">

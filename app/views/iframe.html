@@ -1,21 +1,19 @@
 <!-- Modal -->
-<div class="modal fade" id="{{key}}Modal" tabindex="-1" role="dialog" aria-labelledby="{{key}}ModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>        
-                <h4 class="modal-title" id="{{key}}ModalLabel">{{key}} Messages</h4>
-            </div>
-            <div class="modal-body">
-                <p ng-repeat="(n , t) in value.messages">{{t.localizedRuleName}}<b> &nbsp;Rule Impact: {{t.ruleImpact}} </b></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Save changes</button>
-            </div>
+<div class="modal fade" id="{{btn.class}}" tabindex="-1" role="dialog" aria-labelledby="{{btn.class}}ModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="{{btn.class}}Label">{{btn.class}}</h4>
+      </div>
+        {{btn.site}}
+      <div class="modal-body">
+        <iframe src="{{btn.site}}" width="{{btn.width}}" height="{{btn.height}}"></iframe>
+      </div>
+        <div class="modal-footer">
+            Vivid Software Solutions
         </div>
     </div>
+  </div>
 </div>
 <!-- End Modal -->
