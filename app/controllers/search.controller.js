@@ -6,6 +6,9 @@ app.controller("lookUpController",function($scope, $http, $filter){
     $scope.form = true;   
     $scope.site = "Lookup";   
     $scope.screenshot= '';
+    $scope.date = $filter('date')(new Date(), "MMM d, y h:mm:ss a")
+
+    
     
     $scope.load = function ($var) {
         $scope.form = false; 
@@ -24,6 +27,8 @@ app.controller("lookUpController",function($scope, $http, $filter){
                 "mobile": 'src/mobile.php?url='+$var,
                 "HTMLmarkup":'src/w3valid.php?url='+$var,
             };
+        
+            
             /* LOCAL FILES */
             var siteTest = {
                 "speed": 'dev/static/speed.json',
@@ -31,6 +36,11 @@ app.controller("lookUpController",function($scope, $http, $filter){
                 "HTMLmarkup":'dev/static/w3.json',
             };
             /* END LOCAL*/
+            var testKeys = Object.keys(siteTest);
+            var testLength = testKeys.length;
+            var testScore = 0;
+            var testMessages = 0;
+            
             angular.forEach(siteTest, function(value, key){
                 $http.get(value).success(function(data){
                     var obj = {};
@@ -47,7 +57,6 @@ app.controller("lookUpController",function($scope, $http, $filter){
                             score = (100 - data.messages.length);
                             title = "HTML Markup";
                             alerts = data.messages.length;
-                            console.log(data.messages.length);
                             icon = "html5";
                             messages = data.messages[0];
                         }
@@ -75,7 +84,6 @@ app.controller("lookUpController",function($scope, $http, $filter){
                             
                             score = data.test.score;
                             alerts = data.alerts;
-                            console.log(data.messages.length);
                         }
                     
                     //set bar flags
@@ -85,6 +93,9 @@ app.controller("lookUpController",function($scope, $http, $filter){
                     {bar = "warning";}
                     else if(score >= 67)
                     {bar = "success";}
+                    
+                    testScore = testScore + score;
+                    
                     
                     //group results
                     obj[key] = {
@@ -98,14 +109,52 @@ app.controller("lookUpController",function($scope, $http, $filter){
                     }; 
                     
                     //push into results
+                    
                     $scope.results.push(obj);
+                    console.log($scope.results.lenght);
+                    console.log(testScore / testLength);
+                    
+                    if($scope.results.length == testLength)
+                        {
+                            
+                            var finalScore = testScore / testLength;
+                            
+                            
+                            console.log("we are ready");
+                            if(finalScore < 33)
+                            {label = "danger";}
+                            else if(finalScore >= 34 && finalScore <= 66)
+                            {label = "warning";}
+                            else if(finalScore >= 67)
+                            {label = "success";}    
+                            
+                            
+                            
+                            $scope.alert = {
+                                "title": "Test Results",
+                                "score": testScore / testLength,
+                                "label": label,
+                                "icon": "fa-thumbs-up"
+                            };
+                            
+                            
+                        }
+                    
                 });
             });
+            
         }
+        
     }
 
     
-    /*PDF Export Function*/
+    /*
+        *
+        *
+        *  PDF Export Function
+        *   -set content styles
+        *   -
+    */
     $scope.export = function() {
              
         var date = new Date();
@@ -131,7 +180,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
                 column:{
                     fontSize: 14,
                     color:'#222',
-                    alignment:'justify'
+                    alignment:'center'
                     },
                 success:{
                     color:'#5cb85c'
@@ -145,8 +194,9 @@ app.controller("lookUpController",function($scope, $http, $filter){
                 }
             };
         //get logo
-        var columnDefinition = { style:'column',columns:[]}    
-        var dateFilter = $filter('date')(date, "MMM d, y h:mm:ss a")
+        var columnDefinition1 = { style:'column',columns:[]};  
+        var columnDefinition2 = { style:'column',columns:[]};   
+
         
         //pdfTitle
         var pdfTitle = {
@@ -164,7 +214,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
             columns:[
                 {
                     style: 'subtitle',
-                    text: $scope.site+ "\n"+ "Web Analysis | "+ dateFilter
+                    text: $scope.site+ "\n"+ "Web Analysis | "+ $scope.date
                 }
             ]
         };
@@ -193,7 +243,6 @@ app.controller("lookUpController",function($scope, $http, $filter){
                    width: 500,
                    pageBreak: 'after'
                };
-               console.log(resImg);
               docDefinition.content.push(resImg);
            }
             
@@ -204,14 +253,26 @@ app.controller("lookUpController",function($scope, $http, $filter){
         angular.forEach($scope.results, function(obj, key){
             var data = Object.keys(obj);
             var x = data[0];
-            var lolo = {style:obj[x].label,text: obj[x].title + " \n score :"+ obj[x].score};
-            columnDefinition.columns.push(lolo);
-            if(columnDefinition.columns.length == $scope.results.length)
+            var lolo = {text: obj[x].title};
+            columnDefinition1.columns.push(lolo);
+            if(columnDefinition1.columns.length == $scope.results.length)
             {
-                docDefinition.content.push(columnDefinition);
+                docDefinition.content.push(columnDefinition1);
             }
         });
-         
+        
+        angular.forEach($scope.results, function(obj, key){
+            var data = Object.keys(obj);
+            var x = data[0];
+            var lolo = {style:obj[x].label,text: "\n score :"+ obj[x].score};
+            columnDefinition2.columns.push(lolo);
+            if(columnDefinition2.columns.length == $scope.results.length)
+            {
+                docDefinition.content.push(columnDefinition2);
+            }
+        });
+        
+        
         
         //generate logo and print pdf
         html2canvas(document.getElementById('logo'), {
@@ -239,6 +300,7 @@ app.controller("lookUpController",function($scope, $http, $filter){
         $scope.results = [];
         $scope.imageView = '';
         $scope.form = true;
+        $scope.site = 'Lookup';
     }
     
 
