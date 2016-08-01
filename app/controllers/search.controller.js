@@ -1,13 +1,14 @@
 'use strict';
 
 var app = angular.module("analysisApp");
-app.controller("lookUpController",function($scope, $http, $filter, $sce){
+app.controller("lookUpController",function($scope, $http, resultService,  $filter, $sce, $uibModal){
     
     $scope.form = true;   
     $scope.screenshot= '';
     $scope.date = $filter('date')(new Date(), "MMM d, y h:mm:ss a")
     
     $scope.load = function ($var) {
+        
         $scope.form = false; 
         $scope.site = $var;
         $scope.results = [];
@@ -18,7 +19,7 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
         }
         else
         {
-            /* HTTP CALLS */
+            /* HTTP CALLS*/
             var siteTest = {
                 "speed": 'src/speed.php?url='+$var,
                 "mobile": 'src/mobile.php?url='+$var,
@@ -37,6 +38,7 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
             var testLength = testKeys.length;
             var testScore = 0;
             var testMessages = 0;
+            var site = resultService.addSite($var);
             
             angular.forEach(siteTest, function(value, key){
                 $http.get(value).success(function(data){
@@ -105,10 +107,11 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
                     }; 
                     
                     //push into results
-                    $scope.results.push(obj);
+                    var addtoResults = resultService.addResults(obj);
+                    var results = resultService.getResults();
                     
                     //check for final result
-                    if($scope.results.length == testLength)
+                    if(results.length == testLength)
                         {
                             var finalScore = testScore / testLength;
                             var label = '';
@@ -131,7 +134,7 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
                                 "message": message,
                                 "icon": icon
                             };
-                            
+                            $scope.results = resultService.getResults();
                             $scope.tools($scope.site);
                         }
                     
@@ -141,7 +144,8 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
         }
         
     }
-
+    
+ 
     /*
     *   Tools*/
     $scope.tools  = function($var)
@@ -149,9 +153,8 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
         //iframe sizes
         if($var ==false)
             return false;
-        
+        $scope.iframe_tools = true;
         var url = $sce.trustAsResourceUrl($scope.site);
-        console.log(url);
         var iframe = function(w, h){
             var g = {
                 width:w,
@@ -164,18 +167,31 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
         }
         
         $scope.buttons = [iframe(375,667), iframe(320, 568)];    
-        
-        console.log($scope.buttons);
     }
-    /*
+    
+    
+    
+    $scope.export = function()
+    {
+        
+        var modal = $uibModal.open({
+            templateUrl:'export.html', 
+            controller:'exportController',
+            size: 'md'
+        });
+
+    }
+    
+        /*
         *
         *
         *  PDF Export Function
         *   -set content styles
         *   -
     */
-    $scope.export = function() {
-             
+    $scope.exportPDF = function() {
+   
+        
         var date = new Date();
         var docDefinition = {
             content: [],
@@ -325,15 +341,15 @@ app.controller("lookUpController",function($scope, $http, $filter, $sce){
     
 
     /* DEBUGGING TOOL*/
-    $scope.debug = false;
+    $scope.debugPannel = false;
+    
     $scope.debugger = function(){
-        
+        $scope.load("http://google.com");
         if($scope.debug == true)
         {$scope.debug = false;}
         else
         {$scope.debug = true}
         
     }
-    // TEST JSON FILE
-    $scope.load("http://google.com");
+  
 });

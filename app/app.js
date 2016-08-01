@@ -1,8 +1,12 @@
 'use strict';
 
-var app = angular.module("analysisApp", ["ngRoute", "angular-loading-bar", "base64"]);
+var app = angular.module("analysisApp", [
+    "ngRoute", 
+    "angular-loading-bar", 
+    "ui.bootstrap"
+]);
 
-   app.config(function($routeProvider){
+app.config(function($routeProvider){
     
     $routeProvider.
     when('/', {
@@ -11,5 +15,3 @@ var app = angular.module("analysisApp", ["ngRoute", "angular-loading-bar", "base
         controllerAs: 'main'
     })
 });
-    
-

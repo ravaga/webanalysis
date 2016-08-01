@@ -5,7 +5,7 @@
             <ul class="nav nav-pills">
                 <li ng-repeat="btn in buttons">
                     <button class="btn btn-primary btn-sm"data-toggle="modal" data-target="#{{btn.class}}">{{btn.title}}</button>
-                    <div ng-include="'app/views/iframe.html'"></div>
+                    <div ng-show="iframe_tools" ng-include="'app/views/iframe.html'"></div>
                 </li>
             </ul>
         </div>
@@ -15,6 +15,7 @@
             <h5>Export</h5>
             <button ng-show="!form" ng-click="clearLookUp()" class="btn btn-danger btn-sm">New Search</button>    
                <button class="btn btn-primary btn-sm" ng-click="export()">Export to PDF</button>
+                <div ng-include="'app/views/export.html'"></div>
         </div>
     </div>    
 </div>

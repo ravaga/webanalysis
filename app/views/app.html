@@ -10,7 +10,7 @@
 
 <!-- Results -->
 <div class="row">
-    <div id="Export" class="container" ng-show="!form">
+    <div class="container" ng-show="!form">
         <div ng-include="'app/views/result.html'"></div>
     </div>
 </div>
@@ -23,7 +23,7 @@
 
 <!-- DEBUGER -->
 <br/><br/>
-<div class="row">
+<div ng-show="debugPannel" class="row">
     <div class="container">
         
         <div class="col-md-10 col-md-offset-1">

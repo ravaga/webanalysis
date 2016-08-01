@@ -35,6 +35,11 @@
     </nav>
     <ng-view></ng-view>
    
+    <footer id="footer" class=" navbar-fixed-bottom">
+        <div class="container-fluid">
+            <h5 class="text-center">copyright &copy; VividSoftwareSolutions.com </h5>     
+        </div>
+    </footer>
 </body>
     
 <!--Bower Components -->
@@ -46,11 +51,18 @@
 <script type="text/javascript" src="bower_components/pdfmake/build/pdfmake.min.js"></script>
 <script type="text/javascript" src="bower_components/pdfmake/build/vfs_fonts.js"></script>
 <script type="text/javascript" src="bower_components/html2canvas/build/html2canvas.min.js"></script>
-<script type="text/javascript" src="bower_components/angular-base64/angular-base64.min.js"></script>    
+<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
     
 <!--App Script -->   
 <script type="text/javascript" src="app/app.js"></script>
-<script type="text/javascript" src="app/controllers/search.controller.js"></script><!--end html -->
+<script type="text/javascript" src="app/controllers/search.controller.js"></script>
+<script type="text/javascript" src="app/controllers/exportController.js"></script>
+<!--Services -->
+<script type="text/javascript" src="app/services/searchService.js"></script>    
+<script type="text/javascript" src="app/services/resultService.js"></script>    
+    
+<!--end html -->
 </html>
 
 <script type="text/javascript" src="app/assets/js/scripts.js"></script>
