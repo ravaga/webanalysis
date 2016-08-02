@@ -157,7 +157,7 @@ app.controller('exportController', function($scope, resultService, $filter){
                 
                 //create PDF
                 pdfMake.createPdf(docDefinition).
-                download("VividSoftWareSolution_report_"+site+"_"+datefilter+".pdf");
+                download("Web_report_"+site+"_"+datefilter+".pdf");
 
             }
         });

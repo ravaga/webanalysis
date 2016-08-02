@@ -1,3 +1,7 @@
+html body{
+    height: 100%;
+}
+
 
 .container{
     padding-top:15px;
@@ -17,25 +21,12 @@
         font-size:17px;
     }
 }
-
-#loading-bar {
-    .spinner{color:#f00}
-    .bar {
-    background: #f00;
-    }
-}
-#loading-bar-spinner .spinner-icon{
-    border-top-color:  #f00;
-    border-left-color: #f00;
-    color:#f00;
-}
-
-
 .right{
     padding-top:50px;
 }
 
 .contentWrapper{
+    min-height: 100%;
     margin-bottom:50px;
     padding-bottom:100px;
 }
@@ -80,6 +71,7 @@
 footer{
     background:#252528;
     height:100px;
+    position:relative;
     color: aliceblue;
     padding-top: 25px;
     widows: 100%;
